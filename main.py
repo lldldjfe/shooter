@@ -22,10 +22,11 @@ def spawn_enemy():
     enemy = pygame.Rect(random.randint(0, width - 50), -50, 50, 50)
     enemies.append(enemy)
 
+font = pygame.font.Font(None, 74)
 
 running = True
 spawn_timer = 0
-
+score = 0
 #игрвой цикл
 while running:
     for event in pygame.event.get():
@@ -52,6 +53,7 @@ while running:
     for bullet in bullets:
         for enemy in enemies:
             if bullet.colliderect(enemy):
+                score += 1
                 bullets.remove(bullet)
                 enemies.remove(enemy)
                 break
@@ -61,6 +63,10 @@ while running:
         pygame.draw.rect(screen, red, bullet)
     for enemy in enemies:
         pygame.draw.rect(screen, white, enemy)
+
+    score_text = font.render(str(score), True, white)
+
+    screen.blit(score_text, (width // 2, 20))
 
     pygame.display.flip()
     clock.tick(60)
